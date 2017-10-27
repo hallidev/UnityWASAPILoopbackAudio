@@ -1,6 +1,9 @@
 # UnityWASAPILoopbackAudio
 A barebones example of WASAPI Loopback Audio in Unity using CSCore
 
+Check out CSCore:
+https://github.com/filoe/cscore
+
 Instructions:
 
 1: Clone / download
