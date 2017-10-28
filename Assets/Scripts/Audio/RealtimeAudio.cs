@@ -20,18 +20,21 @@ namespace Assets.Scripts.Audio
         private WasapiLoopbackCapture _loopbackCapture;
         private SoundInSource _soundInSource;
         private IWaveSource _realtimeSource;
-        BasicSpectrumProvider _basicSpectrumProvider;
+        private BasicSpectrumProvider _basicSpectrumProvider;
+        private LineSpectrum _lineSpectrum;
         private SingleBlockNotificationStream _singleBlockNotificationStream;
         private int _spectrumSize;
+        private ScalingStrategy _scalingStrategy;
         private Action<float[]> _receiveAudio;
 
         #endregion
 
         #region Constructor
 
-        public RealtimeAudio(int spectrumSize, Action<float[]> receiveAudio)
+        public RealtimeAudio(int spectrumSize, ScalingStrategy scalingStrategy, Action<float[]> receiveAudio)
         {
             _spectrumSize = spectrumSize;
+            _scalingStrategy = scalingStrategy;
             _receiveAudio = receiveAudio;
         }
 
@@ -54,13 +57,13 @@ namespace Assets.Scripts.Audio
 
             _basicSpectrumProvider = new BasicSpectrumProvider(_soundInSource.WaveFormat.Channels, _soundInSource.WaveFormat.SampleRate, CFftSize);
 
-            LineSpectrum lineSpectrum = new LineSpectrum(CFftSize)
+            _lineSpectrum = new LineSpectrum(CFftSize)
             {
                 SpectrumProvider = _basicSpectrumProvider,
                 BarCount = _spectrumSize,
                 UseAverage = true,
                 IsXLogScale = true,
-                ScalingStrategy = ScalingStrategy.Sqrt
+                ScalingStrategy = _scalingStrategy
             };
 
             _loopbackCapture.Start();
@@ -74,7 +77,7 @@ namespace Assets.Scripts.Audio
             {
                 while (_realtimeSource.Read(buffer, 0, buffer.Length) > 0)
                 {
-                    float[] spectrumData = lineSpectrum.GetSpectrumData(MaxAudioValue);
+                    float[] spectrumData = _lineSpectrum.GetSpectrumData(MaxAudioValue);
 
                     if (spectrumData != null &&  _receiveAudio != null)
                     {

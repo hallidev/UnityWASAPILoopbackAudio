@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Extensions;
+﻿using Assets.Scripts;
+using Assets.Scripts.Extensions;
 using Assets.Scripts.ReactiveEffects.Base;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +33,7 @@ public class PrefabLayoutAudioObject : VisualizationEffectBase
     public Vector3 ObjectRotation;
     public Vector3 RotationOffset;
     public bool Shuffle;
+    public int DesiredColorGroupCount;
 
     #endregion
 
@@ -41,12 +43,21 @@ public class PrefabLayoutAudioObject : VisualizationEffectBase
     {
         base.Start();
 
+        int groupSize = LoopbackAudio.SpectrumSize / DesiredColorGroupCount;
+
         // Instantiate GameObjects
-        for (int i = 0; i < LoopbackAudio.SpectrumData.Length; i++)
+        for (int i = 0; i < LoopbackAudio.SpectrumSize; i++)
         {
             GameObject newGameObject = Instantiate(Prefab);
             newGameObject.transform.parent = gameObject.transform;
             _gameObjects.Add(newGameObject);
+
+            int group = (i / groupSize);
+
+            Renderer rend = newGameObject.GetComponent<Renderer>();
+            Color color = Globals.StrongColors[group];
+            rend.material.SetColor("_Color", color);
+            rend.material.SetColor("_EmissionColor", color);
 
             // Try to set various other used scripts
             VisualizationEffectBase[] visualizationEffects = newGameObject.GetComponents<VisualizationEffectBase>();
@@ -55,6 +66,7 @@ public class PrefabLayoutAudioObject : VisualizationEffectBase
             {
                 foreach (VisualizationEffectBase visualizationEffect in visualizationEffects)
                 {
+                    visualizationEffect.AudioVisualizationStrategy = AudioVisualizationStrategy;
                     visualizationEffect.AudioSampleIndex = i;
                 }
             }
@@ -103,7 +115,7 @@ public class PrefabLayoutAudioObject : VisualizationEffectBase
 
                 for (int i = 0; i < layoutPositions.Count; i++)
                 {
-                    _gameObjects[i].transform.position = layoutPositions[i];
+                    _gameObjects[i].transform.localPosition = layoutPositions[i];
                 }
 
                 break;
@@ -135,7 +147,7 @@ public class PrefabLayoutAudioObject : VisualizationEffectBase
 
                 for (int i = 0; i < layoutPositions.Count; i++)
                 {
-                    _gameObjects[i].transform.position = layoutPositions[i];
+                    _gameObjects[i].transform.localPosition = layoutPositions[i];
                 }
 
                 break;
@@ -163,7 +175,7 @@ public class PrefabLayoutAudioObject : VisualizationEffectBase
 
                 for (int i = 0; i < layoutPositions.Count; i++)
                 {
-                    _gameObjects[i].transform.position = layoutPositions[i];
+                    _gameObjects[i].transform.localPosition = layoutPositions[i];
                     _gameObjects[i].transform.Rotate(ObjectRotation);
                 }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Audio;
+using UnityEngine;
 
 namespace Assets.Scripts.ReactiveEffects.Base
 {
@@ -18,6 +19,7 @@ namespace Assets.Scripts.ReactiveEffects.Base
 
         #region Public Properties
 
+        public AudioVisualizationStrategy AudioVisualizationStrategy;
         public int AudioSampleIndex;
 
         #endregion
@@ -37,7 +39,7 @@ namespace Assets.Scripts.ReactiveEffects.Base
         protected float GetAudioData()
         {
             // Get audio data
-            return _loopbackAudio.GetSpectrumData(AudioSampleIndex);
+            return _loopbackAudio.GetSpectrumData(AudioVisualizationStrategy, AudioSampleIndex);
         }
 
         #endregion

@@ -1,6 +1,6 @@
 ﻿namespace Assets.Scripts.Audio
 {
-    internal enum ScalingStrategy
+    public enum ScalingStrategy
     {
         Decibel,
         Linear,

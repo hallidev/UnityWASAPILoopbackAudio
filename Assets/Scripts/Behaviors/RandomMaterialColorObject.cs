@@ -9,7 +9,7 @@ namespace Assets.Scripts.Behaviors
         public void Awake()
         {
             Renderer rend = GetComponent<Renderer>();
-            Color color = Globals.GetRandomColor();
+            Color color = Globals.GetRandomStrongColor();
             rend.material.SetColor("_Color", color);
             rend.material.SetColor("_EmissionColor", color);
         }
