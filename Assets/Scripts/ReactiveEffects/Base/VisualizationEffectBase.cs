@@ -21,6 +21,7 @@ namespace Assets.Scripts.ReactiveEffects.Base
 
         public AudioVisualizationStrategy AudioVisualizationStrategy;
         public int AudioSampleIndex;
+        public float PrimaryScaleFactor;
 
         #endregion
 

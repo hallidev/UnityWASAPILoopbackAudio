@@ -4,6 +4,7 @@
     {
         Raw,
         PostScaled,
+        PostScaledMinMax,
         PostScaledMax,
         PostScaledEnergy
     }

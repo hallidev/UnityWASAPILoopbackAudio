@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 114977533371762004}
   - component: {fileID: 114186006647847878}
   m_Layer: 0
-  m_Name: Bar Spectrum Cube Post Scaled
+  m_Name: Bar Spectrum Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
