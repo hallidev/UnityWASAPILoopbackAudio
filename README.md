@@ -1,3 +1,9 @@
+DEPRECATED
+
+See repository here for a Unity 2019 sample that includes Loopback and Microphone as well as a VFX Graph example:
+
+https://github.com/hallidev/UnityWasapiAudio
+
 # UnityWASAPILoopbackAudio
 A barebones example of WASAPI Loopback Audio in Unity using CSCore
 
